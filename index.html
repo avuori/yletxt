@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <title>Ylen teksti-tv</title> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <style type='text/css'> 
+  body {
+    background-color: black;
+    font-family: sans-serif;
+  }
+  a {
+    display: none;
+  }
+  #content div.item {
+     background-color: white;
+     color: black;
+     margin-top: 3px;
+     padding: 5px;
+     -moz-border-radius: 10px;
+     border-radius: 10px;
+     font-weight: bold;
+     font-size: 10pt;
+     text-align: center;
+  }
+  #content div.item:hover {
+      cursor: pointer;
+      color: black;
+  }
+  #time {
+      font-size: 8pt;
+      color: white;
+      margin-top: 3px;
+      text-align: right;
+  }
+  </style> 
+</head> 
+<body> 
+<div id="content">
+</div>
+<div id="time"></div>
+<script type='text/javascript'>
+function timestamp () {
+    var d = new Date;
+    return parseInt(d.getTime() / 1000);
+}
+function update_time () {
+    var last_update = $("#time").data("timestamp");
+    if (!last_update) {
+        $("#time").text("");
+        return;
+    }
+    var delta = timestamp() - last_update;
+    var n, unit;
+    if (delta < 60) {
+        $("#time").text("Päivitetty alle minuutti sitten");
+    } else {
+        unit = "minuutti";
+        n = parseInt(delta / 60);
+        if (n !== 1) {
+            unit += "a";
+        }
+        $("#time").text("Päivitetty " + n + " " + unit + " sitten");
+    }
+}
+function refresh () {
+    $("div.item").live("click", function () {
+        window.open($(this).find("a:first").attr("href"));
+        return false;
+    });
+    $("#content").load("yle.py", function () {
+        $("#time").data("timestamp", timestamp());
+        update_time();
+        window.setTimeout(refresh, 1000*60*3);
+    });
+}
+function time_updater () {
+    update_time();
+    window.setTimeout(time_updater, 1000*30);
+}
+$(function () {
+    refresh();
+    time_updater();
+});
+</script>
+</body>
+</html>
