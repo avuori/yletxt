@@ -3,7 +3,6 @@
 from BeautifulSoup import BeautifulSoup
 import re
 import urllib2
-import codecs
 
 def fetch_data():
     return urllib2.urlopen("http://www.yle.fi/tekstitv/txt/P100_01.html").read()
