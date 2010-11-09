@@ -9,24 +9,16 @@
     background-color: black;
     font-family: sans-serif;
   }
-  a {
-    display: none;
+  a, a:visited {
+    color: white;
+    text-decoration: none;
   }
   #content div.item {
-/*     background-color: white;
-     color: black; */
-     color: white;
      margin-top: 3px;
      padding: 5px;
-/*     -moz-border-radius: 10px;
-     border-radius: 10px; */
      font-weight: bold;
      font-size: 9pt;
      text-align: center;
-  }
-  #content div.item:hover {
-      cursor: pointer;
-    /*  color: black; */
   }
   #time {
       font-size: 8pt;
@@ -65,10 +57,6 @@ function update_time () {
     }
 }
 function refresh () {
-    $("div.item").live("click", function () {
-        window.open($(this).find("a:first").attr("href"));
-        return false;
-    });
     $("#content").load("yle.py", function () {
         $("#time").data("timestamp", timestamp());
         update_time();

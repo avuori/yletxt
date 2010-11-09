@@ -23,9 +23,8 @@ for big in bigs:
     m = re.search('<big><a href="([^"]+)">(\d+)</a>(.+)</big>', str(big))
     if m:
         href = m.group(1)
-        page = m.group(2)
         title = m.group(3)
-        response_text += '<div class="item"><a href="%s">%s</a> %s</div>\n' % (href, page, title)
+        response_text += '<div class="item"><a target="_blank" href="%s">%s</a></div>\n' % (href, title)
 
 
 print_http_headers(len(response_text))
