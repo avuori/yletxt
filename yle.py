@@ -16,16 +16,17 @@ def print_http_headers(content_length):
                    ))
     print "\n"
 
-response_text = "";
+response_text = u'';
 soup = BeautifulSoup(fetch_data())
 bigs = soup.findAll('big')
 for big in bigs:
     m = re.search('<big><a href="([^"]+)">(\d+)</a>(.+)</big>', str(big))
     if m:
         href = m.group(1)
-        title = m.group(3)
-        response_text += '<div class="item"><a target="_blank" href="%s">%s</a></div>\n' % (href, title)
+        inner = m.group(3)
+	title = ''.join(BeautifulSoup(inner).findAll(text=True))
+        response_text += u'<div class="item"><a target="_blank" href="%s">%s</a></div>\n' % (href, title)
 
 
 print_http_headers(len(response_text))
-print response_text
+print response_text.encode("utf-8")
