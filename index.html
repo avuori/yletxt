@@ -33,6 +33,12 @@
 </div>
 <div id="time"></div>
 <script type='text/javascript'>
+$(function () {
+    // mobile support
+    if (window.location.hash.indexOf("#m") >= 0)
+        $("style").append("#content div.item {font-size: 20pt;}");
+});
+
 function timestamp () {
     var d = new Date;
     return parseInt(d.getTime() / 1000);
